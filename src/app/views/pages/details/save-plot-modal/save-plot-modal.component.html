@@ -1,0 +1,117 @@
+<div class="modal-header">
+    <h5 class="modal-title" *ngIf="mode === 'edit'">Edit Plot</h5>
+    <h5 class="modal-title" *ngIf="mode === 'add'">Add Plot</h5>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <form class="forms-sample" [formGroup]="plotForm" (ngSubmit)="onSubmit()">
+          <div class="row mt-4">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="control-label">Plot Location</label>
+                <input type="text" class="form-control" formControlName="location" autocomplete="off"
+                  placeholder="Plot Location" [ngClass]="{
+                    'is-invalid': submitted && f['location']['errors'],
+                    'has-value': f['location']['value']
+                  }" />
+                <div class="text-danger mt-1" *ngIf="submitted && f['location']['errors']">
+                  <p *ngIf="f['location']['errors']['required']">
+                    Plot Location is Required
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="control-label">Plot Area per m2</label>
+                <input type="number" min="1" class="form-control" formControlName="area" autocomplete="off"
+                  placeholder="Plot Area per m2" [ngClass]="{
+                    'is-invalid': submitted && f['area']['errors'],
+                    'has-value': f['area']['value']
+                  }" />
+                <div class="text-danger mt-1" *ngIf="submitted && f['area']['errors']">
+                  <p *ngIf="f['area']['errors']['required']">
+                    Plot Area is required
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="control-label">Plot owner Name</label>
+                <input type="text" class="form-control" formControlName="ownerName" autocomplete="off"
+                  placeholder="Plot owner Name" [ngClass]="{
+                    'is-invalid': submitted && f['ownerName']['errors'],
+                    'has-value': f['ownerName']['value']
+                  }" />
+                <div class="text-danger mt-1" *ngIf="submitted && f['ownerName']['errors']">
+                  <p *ngIf="f['ownerName']['errors']['required']">
+                    Plot owner Name is Required
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="control-label">Plot Crop</label>
+                  <select [compareWith]="compareWithCrops" (change)="loadCropRecommondations()" class="crop-select" name="crop" id="crop"  formControlName="crop">
+                    <option *ngFor="let crop of crops" [ngValue]="crop">
+                        {{crop.name}}
+                    </option>
+                  </select>
+                  <div class="text-danger mt-1" *ngIf="submitted && f['crop']['errors']">
+                    <p *ngIf="f['crop']['errors']['required']">
+                        crop is Required
+                    </p>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="control-label">irrigation Rate per minutes</label>
+                <input type="number" min="5" class="form-control" formControlName="irrigationRate" autocomplete="off"
+                  placeholder="irrigation Rate" [ngClass]="{
+                    'is-invalid': submitted && f['irrigationRate']['errors'],
+                    'has-value': f['irrigationRate']['value']
+                  }" />
+                <div class="text-danger mt-1" *ngIf="submitted && f['irrigationRate']['errors']">
+                  <p *ngIf="f['irrigationRate']['errors']['required']">
+                    irrigation Rate is Required
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="control-label">water Amount per Liter</label>
+                  <input type="number" min="1" class="form-control" formControlName="waterAmount" autocomplete="off"
+                    placeholder="water Amount" [ngClass]="{
+                      'is-invalid': submitted && f['waterAmount']['errors'],
+                      'has-value': f['waterAmount']['value']
+                    }" />
+                  <div class="text-danger mt-1" *ngIf="submitted && f['waterAmount']['errors']">
+                    <p *ngIf="f['waterAmount']['errors']['required']">
+                        water Amount is Required
+                    </p>
+                  </div>
+                </div>
+            </div>
+            <h5 class="mt-4">when Choosing Crop ,system will recommond Irragation Rate value</h5>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light mr-2" (click)="activeModal.dismiss('Cross click')">Cancel</button>
+            <button type="submit" class="btn mr-2 submit-button" *ngIf="mode === 'edit'">Edit</button>
+            <button type="submit" class="btn mr-2 submit-button" *ngIf="mode === 'add'">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
